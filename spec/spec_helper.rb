@@ -22,4 +22,15 @@ RSpec.configure do |config|
 
   config.order = :random
   Kernel.srand config.seed
+
+  # Helper to create a temporary directory with a fake Rails app structure
+  # for use in integration-style specs that need a project root on disk.
+  config.include(Module.new do
+    def with_tmp_rails_app
+      Dir.mktmpdir("rails_deploy_check_spec") do |dir|
+        FileUtils.touch(File.join(dir, "Gemfile"))
+        yield dir
+      end
+    end
+  end)
 end
