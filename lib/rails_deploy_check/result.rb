@@ -43,6 +43,14 @@ module RailsDeployCheck
       }
     end
 
+    # Merges another Result's errors, warnings, and info messages into this one.
+    def merge!(other)
+      @errors.concat(other.errors)
+      @warnings.concat(other.warnings)
+      @info_messages.concat(other.info_messages)
+      self
+    end
+
     def to_s
       output = []
       
