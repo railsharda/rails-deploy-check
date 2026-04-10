@@ -32,6 +32,12 @@ This will validate:
 - **Database Connectivity**: Tests database connection
 - **Dependencies**: Validates gem dependencies are met
 
+To run only specific checks, use the `--only` flag:
+
+```bash
+rails deploy:check --only migrations,env_vars
+```
+
 ### Configuration
 
 Create a `.deploy-check.yml` in your Rails root:
