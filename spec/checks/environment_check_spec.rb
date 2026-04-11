@@ -36,6 +36,14 @@ RSpec.describe RailsDeployCheck::Checks::EnvironmentCheck do
         result = build_check({ "DATABASE_URL" => "  " }).run
         expect(result.errors).to include(a_string_matching(/DATABASE_URL/))
       end
+
+      it "reports all missing variables when multiple are absent" do
+        result = build_check({ "SECRET_KEY_BASE" => nil, "DATABASE_URL" => nil }).run
+        expect(result.errors).to include(
+          a_string_matching(/SECRET_KEY_BASE/),
+          a_string_matching(/DATABASE_URL/)
+        )
+      end
     end
 
     context "with custom required variables" do
@@ -66,6 +74,11 @@ RSpec.describe RailsDeployCheck::Checks::EnvironmentCheck do
       it "warns when SECRET_KEY_BASE is too short" do
         result = build_check({ "SECRET_KEY_BASE" => "short" }).run
         expect(result.warnings).to include(a_string_matching(/SECRET_KEY_BASE appears too short/))
+      end
+
+      it "does not warn when SECRET_KEY_BASE meets the minimum length" do
+        result = build_check({ "SECRET_KEY_BASE" => "a" * 64 }).run
+        expect(result.warnings).not_to include(a_string_matching(/SECRET_KEY_BASE appears too short/))
       end
     end
   end
