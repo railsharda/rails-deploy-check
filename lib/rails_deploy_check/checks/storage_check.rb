@@ -43,8 +43,7 @@ module RailsDeployCheck
           if env_content.match?(/config\.active_storage\.service\s*=/)
             service = env_content[/config\.active_storage\.service\s*=\s*:(\w+)/, 1]
             if service
-              known = KNOWN_SERVICES.any? { |s| content.match?(/^#{service}:/) }
-              if known || content.match?(/^#{service}:/)
+              if content.match?(/^#{service}:/)
                 result.add_info("Active Storage service ':#{service}' is defined in storage.yml")
               else
                 result.add_error("Active Storage service ':#{service}' is not defined in config/storage.yml")
