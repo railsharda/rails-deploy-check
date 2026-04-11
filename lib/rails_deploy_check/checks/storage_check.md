@@ -31,3 +31,8 @@ end
 - **Error** — Referenced storage service is missing from `storage.yml`.
 - **Warning** — `config/storage.yml` not found, service not configured in env file, or migrations missing.
 - **Info** — Storage config and service definitions look correct.
+
+## Notes
+
+- If your app does not use Active Storage, this check can be safely skipped by omitting it from your configuration.
+- When using a cloud storage service (e.g. S3, GCS, Azure), ensure that the required credentials and environment variables are set separately — this check only validates the structural configuration, not runtime credentials.
