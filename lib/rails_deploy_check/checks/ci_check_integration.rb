@@ -34,6 +34,21 @@ module RailsDeployCheck
 
         nil
       end
+
+      # Returns a human-readable string describing the detected CI provider,
+      # or "unknown" if no provider is detected.
+      def self.detected_provider_name
+        case detected_provider
+        when :github_actions then "GitHub Actions"
+        when :circleci       then "CircleCI"
+        when :travis         then "Travis CI"
+        when :gitlab         then "GitLab CI"
+        when :buildkite      then "Buildkite"
+        when :jenkins        then "Jenkins"
+        when :generic        then "CI (generic)"
+        else                      "unknown"
+        end
+      end
     end
   end
 end
