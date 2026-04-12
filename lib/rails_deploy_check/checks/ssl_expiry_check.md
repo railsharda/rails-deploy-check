@@ -7,6 +7,7 @@ The `SslExpiryCheck` verifies that SSL certificates for a given host are valid a
 - **Certificate Expiry**: Fetches the SSL certificate for the configured host and checks the expiry date.
 - **Warning Threshold**: Warns if the certificate expires within `warning_days` (default: 30 days).
 - **Critical Threshold**: Raises an error if the certificate expires within `critical_days` (default: 7 days).
+- **Already Expired**: Returns an error immediately if the certificate has already expired.
 
 ## Configuration
 
@@ -40,4 +41,10 @@ The check is automatically registered when:
 | Certificate valid, not expiring    | Info    |
 | Expiring within `warning_days`     | Warning |
 | Expiring within `critical_days`    | Error   |
+| Certificate already expired        | Error   |
 | Could not fetch certificate        | Warning |
+
+## Notes
+
+- The check connects to port 443 by default. Ensure the host is reachable from the deployment environment.
+- A connection timeout of 10 seconds is used to avoid blocking deploys on slow networks.
