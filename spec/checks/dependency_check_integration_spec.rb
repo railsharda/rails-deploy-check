@@ -21,6 +21,14 @@ RSpec.describe RailsDeployCheck::Checks::DependencyCheckIntegration do
       described_class.register(registry, rails_root: Dir.pwd)
       expect(registry[:dependency]).to be_a(RailsDeployCheck::Checks::DependencyCheck)
     end
+
+    it "does not overwrite an existing registry entry if already present" do
+      registry = {}
+      described_class.register(registry, rails_root: Dir.pwd)
+      first_check = registry[:dependency]
+      described_class.register(registry, rails_root: Dir.pwd)
+      expect(registry[:dependency]).to equal(first_check)
+    end
   end
 
   describe ".gemfile_present?" do
