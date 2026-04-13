@@ -13,6 +13,7 @@ module RailsDeployCheck
         check_cdn_url_configured
         check_cdn_url_format
         check_asset_host_in_config
+        check_cdn_url_reachable
         result
       end
 
@@ -36,6 +37,17 @@ module RailsDeployCheck
         if @cdn_url.end_with?("/")
           result.add_warning("CDN URL '#{@cdn_url}' has a trailing slash, which may cause double-slash asset paths.")
         end
+      end
+
+      def check_cdn_url_reachable
+        return if @cdn_url.nil? || @cdn_url.strip.empty?
+        return unless @cdn_url.match?(%r{\Ahttps?://})
+
+        require "uri"
+        uri = URI.parse(@cdn_url)
+        result.add_info("CDN host: #{uri.host}")
+      rescue URI::InvalidURIError
+        result.add_error("CDN URL '#{@cdn_url}' is not a valid URI.")
       end
 
       def check_asset_host_in_config
