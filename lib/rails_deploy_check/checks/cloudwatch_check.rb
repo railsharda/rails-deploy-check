@@ -67,6 +67,10 @@ module RailsDeployCheck
           result.add_warning("Gemfile.lock not found; cannot verify AWS SDK gem")
         end
       end
+
+      def blank?(value)
+        value.nil? || value.strip.empty?
+      end
     end
   end
 end
