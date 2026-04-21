@@ -34,3 +34,5 @@ end
 - SSL certificate verification follows Ruby's default behaviour; pair with
   `SslCheck` for deeper certificate validation.
 - Redirects are treated as success (3xx codes are included in the success range).
+- Each endpoint is checked independently; a failure on one does not prevent
+  the remaining endpoints from being probed.
