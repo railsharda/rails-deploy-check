@@ -25,6 +25,8 @@ module RailsDeployCheck
 
         content = File.read(lockfile)
         content.match?(/devise-two-factor/i) || content.match?(/\brotp\b/i)
+      rescue Errno::EACCES
+        false
       end
 
       def self.otp_secret_env_present?(env)
